@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Master</title>
+    <link rel="stylesheet" href="style_typing.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="center_div">
+        <h1>Welcome To Typing Speed Test</h1>
+        <h2 class="msg">i kn ow</h2>
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          class="input_txt"
+          placeholder=""
+        ></textarea>
+        <button id="btn" class="mainbtn">Start</button>
+      </div>
+    </div>
+
+    <!-- js start -->
+    <script>
+      const SetWord = [
+        "My name is mohd kaif and i wanna become a fullstack developer",
+        "I also know how to speak english with gramer concept like tens,use of and else",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, labore. Repellendus, sit. Aperiam, dolores",
+      ];
+      const msgElm = document.querySelector(".msg");
+      const btn_start = document.querySelector(".mainbtn");
+      const textareaElm = document.querySelector(".input_txt");
+      let startTime, endTime;
+      textareaElm.disabled = true;
+      function playGame() {
+        let randomIndex = Math.floor(Math.random() * SetWord.length);
+        msgElm.textContent = SetWord[randomIndex];
+        let date = new Date();
+        startTime = date.getTime();
+        console.log(startTime);
+        btn_start.innerHTML = "Done";
+        textareaElm.value = "";
+      }
+      function endPLay() {
+        let date = new Date();
+        endTime = date.getTime();
+        let total_time = (endTime - startTime) / 1000;
+        btn_start.innerHTML = "Start";
+        let string = textareaElm.value;
+        let trimStr = string.trim();
+        let splitStr = trimStr.split(" ");
+        let word = splitStr.filter(function (x) {
+          return x !== "";
+        });
+
+        let speed = Math.floor((word.length / total_time) * 60);
+        let finalMSG = `you typed total at ${speed} words per minutes, ${ERROR_look(
+          word,
+          msgElm.textContent
+        )}`;
+        msgElm.innerHTML = finalMSG;
+      }
+      function ERROR_look(input, msg) {
+        msg = msg.split(" ");
+        let crt = 0;
+        for (i = 0; i < msg.length; i++) {
+          if (input[i] == msg[i]) {
+            crt++;
+          }
+        }
+        let errorWords = msg.length - crt;
+        return `${crt} correct out of ${msg.length} words and the total number of error are ${errorWords}`;
+      }
+      //   btn start
+      btn_start.addEventListener("click", function () {
+        if (this.innerHTML == "Start") {
+          textareaElm.disabled = false;
+          playGame();
+        } else if (this.innerHTML == "Done") {
+          textareaElm.disabled = true;
+          this.innerHTML = "Done";
+          endPLay();
+        }
+      });
+    </script>
+  </body>
+</html>
